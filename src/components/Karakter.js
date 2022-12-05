@@ -4,6 +4,8 @@ import axios from "axios";
 import styled from "styled-components";
 import { Accordion, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import KarakterProperty from "./KarakterProperty";
+import KarakterTitle from "./KarakterTitle";
 
 const Container = styled.div`
   width: 100vw;
@@ -17,9 +19,6 @@ const AccordionDiv = styled.div`
   margin-right: auto;
 `;
 
-const Baslik = styled.h1`
-  font-style: italic;
-`;
 function Karakter() {
   const [characters, setCharacters] = useState(null);
   const [showFilms, setShowFilms] = useState(false);
@@ -31,13 +30,9 @@ function Karakter() {
     });
   }, []);
 
-  const handleClick = () => {
-    setShowFilms(!showFilms);
-  };
-
   return (
     <Container>
-      <Baslik>Star Wars Characters</Baslik>
+      <KarakterTitle />
 
       {characters === null ? (
         <div>Loading...</div>
@@ -46,32 +41,7 @@ function Karakter() {
           <Accordion defaultActiveKey="0">
             {characters.map((character, index) => (
               <Accordion.Item eventKey={index}>
-                <Accordion.Header>{character.name}</Accordion.Header>
-                <Accordion.Body>
-                  <p>
-                    <strong>Birth Year:</strong> {character.birth_year}
-                  </p>
-                  <p>
-                    <strong>Eye Color:</strong>{" "}
-                    {character.eye_color.charAt(0).toUpperCase() +
-                      character.eye_color.substring(1)}
-                  </p>
-                  <p>
-                    <strong>Gender:</strong>{" "}
-                    {character.gender.charAt(0).toUpperCase() +
-                      character.gender.substring(1)}
-                  </p>
-                  <Button onClick={handleClick}>
-                    {showFilms ? "Hide Films" : "Show Films"}
-                  </Button>
-                  {showFilms && (
-                    <ul className="list-unstyled">
-                      {character.films.map((film) => (
-                        <li key={film}>{film}</li>
-                      ))}
-                    </ul>
-                  )}
-                </Accordion.Body>
+                <KarakterProperty krktr={character} />
               </Accordion.Item>
             ))}
           </Accordion>
